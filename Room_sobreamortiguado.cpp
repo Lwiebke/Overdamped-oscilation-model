@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
 
     double L = 80;
     double W = 20;
-    double D = 3;
+    double D = 2;
 
     double max_time = 200;
     double dt = 0.005;
@@ -45,8 +45,7 @@ int main(int argc, char *argv[]){
     //double d_eq = 15;
     double d_cut_prop = 0.17;//tambien como papper (usa 6/5 de r_eq)
     //double f_rep = 30;//como papper
-    double f_rep = 50;//como papper pero * 3.3 (por la velocidad velocidad deseada)
-    //double f_adh = 2.5;//como papper pero * 3.3 (por la velocidad velocidad deseada)
+    double f_rep = 50;
     double f_adh = 10;//como papper pero * 3.3 (por la velocidad velocidad deseada)
     double f_wall = 50;//como papper
 

@@ -74,7 +74,7 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
               else{
                 if (objetos[id].get_id()>1 && objetos[id_vec].get_id()>1){
                   cout<<"Fuerza de atraccion ignorada "<<objetos[id].get_id()<< " y su vecino: " << objetos[id_vec].get_id() <<endl;
-                  exit(2) ;
+                  //exit(2) ;
                 }
 
               }
