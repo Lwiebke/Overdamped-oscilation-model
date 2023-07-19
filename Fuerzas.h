@@ -34,6 +34,8 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
   for (int i = 0; i < N; i++){
     id_vec = vecinos[i];
 
+
+
     r_eq = objetos[id].get_radio() + objetos[id_vec].get_radio();
     r_cut = r_eq + r_eq*r_cut_prop;
 
@@ -48,46 +50,57 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
     double b;
     // -b/m es el punto en que y = 0 de la recta
 
-    if (d <= r_cut){//hay algun efecto
+    if (id_vec>1){
 
-      if (d > r_eq){//atraccion
+      if (d <= r_cut){//hay algun efecto
 
-        //necesito evitar la atraccion a través de paredes
-        if (objetos[id_vec].get_pos_y() * objetos[id].get_pos_y() > 0) { //Si ambos estan arriba o abajo, hay atraccion
-          velocidad_por_vec[0] = e_x * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
-          velocidad_por_vec[1] = e_y * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
-        }
-        else {
-          // Si ambos en x están sobre la abertura, tambien hay interacion
-          if (objetos[id_vec].get_pos_x() > (W/2)-(D/2) && objetos[id_vec].get_pos_x() < (W/2)+(D/2) && objetos[id].get_pos_x() > (W/2)-(D/2) && objetos[id].get_pos_x() < (W/2)+(D/2) ){
+        if (d > r_eq){//atraccion
+
+          //necesito evitar la atraccion a través de paredes
+          if (objetos[id_vec].get_pos_y() * objetos[id].get_pos_y() > 0) { //Si ambos estan arriba o abajo, hay atraccion
             velocidad_por_vec[0] = e_x * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
             velocidad_por_vec[1] = e_y * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
           }
-          else{
-            if (e_y!=0 && e_x!=0){
-              m = e_y/e_x;
-              b = objetos[id].get_pos_y() - m*objetos[id].get_pos_x();
-              if( (-b/m) > (W/2)-(D/2) && (-b/m) < (W/2)+(D/2)){
-                velocidad_por_vec[0] = e_x * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
-                velocidad_por_vec[1] = e_y * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
-              }
-              else{
-                if (objetos[id].get_id()>1 && objetos[id_vec].get_id()>1){
-                  cout<<"Fuerza de atraccion ignorada "<<objetos[id].get_id()<< " y su vecino: " << objetos[id_vec].get_id() <<endl;
-                  //exit(2) ;
+          else {
+            // Si ambos en x están sobre la abertura, tambien hay interacion
+            if (objetos[id_vec].get_pos_x() > (W/2)-(D/2) && objetos[id_vec].get_pos_x() < (W/2)+(D/2) && objetos[id].get_pos_x() > (W/2)-(D/2) && objetos[id].get_pos_x() < (W/2)+(D/2) ){
+              velocidad_por_vec[0] = e_x * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
+              velocidad_por_vec[1] = e_y * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
+            }
+            else{
+              if (e_y!=0 && e_x!=0){
+                m = e_y/e_x;
+                b = objetos[id].get_pos_y() - m*objetos[id].get_pos_x();
+                if( (-b/m) > (W/2)-(D/2) && (-b/m) < (W/2)+(D/2)){
+                  velocidad_por_vec[0] = e_x * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
+                  velocidad_por_vec[1] = e_y * (f_adh*( (d-r_eq) / (r_cut-r_eq)));
                 }
+                else{
+                  if (objetos[id].get_id()>1 && objetos[id_vec].get_id()>1){
+                    //cout<<"Fuerza de atraccion ignorada "<<objetos[id].get_id()<< " y su vecino: " << objetos[id_vec].get_id() <<endl;
+                    //exit(2) ;
+                  }
 
+                }
               }
             }
           }
+        }//fin atraccion
+
+
+        else{//repulsion
+          velocidad_por_vec[0] = e_x * f_rep*((d-r_eq)/(r_eq));
+          velocidad_por_vec[1] = e_y * f_rep*((d-r_eq)/(r_eq));
         }
-      }//fin atraccion
-
-
-      else{//repulsion
-        velocidad_por_vec[0] = e_x * f_rep*((d-r_eq)/(r_eq));
-        velocidad_por_vec[1] = e_y * f_rep*((d-r_eq)/(r_eq));
       }
+
+
+    }
+    else{
+      if(d<r_eq) // caso especial de las particulas justo en el limite, que deben comportarse como puerta y no como partícula.
+        velocidad_por_vec[0] = e_x * -1*f_rep*exp((-2*d)/(objetos[id].get_radio()));
+        velocidad_por_vec[1] = e_y * -1*f_rep*exp((-2*d)/(objetos[id].get_radio()));
+
     }
 
     velocidad_des[0] += velocidad_por_vec[0];
@@ -95,8 +108,7 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
 
   }
 
-// TODO ESTO TOCA ARREGLARLO, YA NO TENEMOS FUERZAS ASÍ QUE HAY QUE HACERLO CON VELOCIDADLES
-  //base
+
   double radio = objetos[id].get_radio();
 
   r_cut = radio + radio*r_cut_prop;
