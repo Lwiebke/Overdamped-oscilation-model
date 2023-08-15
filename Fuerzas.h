@@ -97,10 +97,11 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
 
     }
     else{
-      if(d<r_eq) // caso especial de las particulas justo en el limite, que deben comportarse como puerta y no como partícula.
+      if(d<r_eq){ // caso especial de las particulas justo en el limite, que deben comportarse como puerta y no como partícula.
+        
         velocidad_por_vec[0] = e_x * -1*f_rep*exp((-2*d)/(objetos[id].get_radio()));
         velocidad_por_vec[1] = e_y * -1*f_rep*exp((-2*d)/(objetos[id].get_radio()));
-
+	}
     }
 
     velocidad_des[0] += velocidad_por_vec[0];
