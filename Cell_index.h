@@ -66,7 +66,7 @@ vector<vector<int> > calcular_vecinos(vector<Particula> &particulas, float W, fl
       int M, M1, M2;
       int N = particulas.size();
       vector< vector< list<int> > > grilla;
-      float r_max = particulas[4].get_radio_base() + particulas[4].get_amplitud();
+      float r_max = particulas[2].get_radio_base() + particulas[2].get_amplitud();
 
 
       vecinos.resize(N);
