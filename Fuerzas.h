@@ -98,9 +98,9 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
     }
     else{
       if(d<r_eq){ // caso especial de las particulas justo en el limite, que deben comportarse como puerta y no como partícula.
-        
-        velocidad_por_vec[0] = e_x * -1*f_rep*exp((-2*d)/(objetos[id].get_radio()));
-        velocidad_por_vec[1] = e_y * -1*f_rep*exp((-2*d)/(objetos[id].get_radio()));
+
+        velocidad_por_vec[0] = e_x * -1*f_wall*exp((-2*d)/(objetos[id].get_radio()));
+        velocidad_por_vec[1] = e_y * -1*f_wall*exp((-2*d)/(objetos[id].get_radio()));
 	}
     }
 
@@ -134,7 +134,7 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
       velocidad_des[0] += -f_adh*( (d-radio) / (r_cut-radio));
     }
     else{
-        velocidad_des[0] +=  f_rep*exp((-2*d)/(radio));
+        velocidad_des[0] +=  f_wall*exp((-2*d)/(radio));
     }
 
 
@@ -147,29 +147,9 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
         velocidad_des[0] += f_adh*( (d-radio) / (r_cut-radio));
     }
     else{
-        velocidad_des[0] +=  -f_rep*exp((-2*d)/(r_cut));
+        velocidad_des[0] +=  -f_wall*exp((-2*d)/(r_cut));
     }
   }
-
-  //cout << "Fuerza X =  "<< fuerza[0]<<endl;
-//  if (id>1){
-
-      //if (!isfinite(v[0]) || !isfinite(v[1])){
-
-          //if ( (abs(velocidad_des[0]) > 50) || (abs(velocidad_des[1]) > 50) ){
-          //cout << id << endl;
-          //cout << velocidad_des[0] << " " << velocidad_des[1] << endl;
-          //cout << "Posiciones" << objetos[id].get_pos_x() << " " <<objetos[id].get_pos_y()<<endl;
-          //cout << "Velocidad: " << objetos[id].get_vel_x() << " " <<objetos[id].get_vel_y()<<endl;
-          //cout << objetos[id].get_tar_x() << " " <<objetos[id].get_tar_y()<<endl;
-          //cout << objetos[id].get_radio() <<endl;
-
-          //exit(-5);
-    //  }
-
-  //}
-
-
 
 
 

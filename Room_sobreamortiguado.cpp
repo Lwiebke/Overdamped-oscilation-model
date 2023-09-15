@@ -116,8 +116,8 @@ int main(int argc, char *argv[]){
   int max_pasos = int(max_time/dt);
   //cout << int(dt_escritura/dt)<<endl;
   string tiempo_formated;
-  clock_t timer;
-  timer = clock();
+  //clock_t timer;
+  //timer = clock();
   for (int i = 0; i < max_pasos; i++){ //for de pasos temporales
     //cout << i<<endl;
     vecinos = calcular_vecinos(particulas,W,L,d_cut_prop);
@@ -157,7 +157,7 @@ int main(int argc, char *argv[]){
   t_salidas.close();
   cout << "Fin" << endl;
 
-  timer = clock() - timer;
-  printf ("%f seconds).\n",((float)timer)/CLOCKS_PER_SEC);
+  //timer = clock() - timer;
+  //printf ("%f seconds).\n",((float)timer)/CLOCKS_PER_SEC);
   return 0;
 }
