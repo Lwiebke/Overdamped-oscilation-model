@@ -50,7 +50,6 @@ bool son_vecinas(Particula *A, Particula *B,double r_cut_prop){
   float distancia;
 
   distancia = sqrt(powf(A->get_pos_x() - B->get_pos_x() ,2.0) + powf(A->get_pos_y() - B->get_pos_y() ,2.0));
-  //distancia = distancia - (A->get_radio() + B->get_radio());
   if (distancia <= (A->get_radio()*(1+r_cut_prop)+B->get_radio()*(1+r_cut_prop) ))
     vecindad = true;
 

@@ -23,8 +23,6 @@ class Particula{
     double target_x;
     double target_y;
 
-    //double v_deseada_x;
-    //double v_deseada_y;
 
 
   public:

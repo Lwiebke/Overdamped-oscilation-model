@@ -15,8 +15,6 @@
 
 #include "Fuerzas.h"
 #include "mover.h"
-//#include "vecinos.h"
-
 
 
 using namespace std;
@@ -33,26 +31,25 @@ int main(int argc, char *argv[]){
 
     double max_time = 200;
     double dt = 0.005;
-    double dt_escritura = 0.05;
+    double dt_escritura = 0.5;
 
     int N_deseado = 200;
     double v_deseada = 1;
 
     double radio_base = 1;
     double amplitud_radio = 0.15;
-    double frecuencia = 0;
+    double frecuencia = 6;
 
-    //double d_eq = 15;
-    double d_cut_prop = 0.17;//tambien como papper (usa 6/5 de r_eq)
-    //double f_rep = 30;//como papper
+
+    double d_cut_prop = 0.17;//
     double f_rep = 50;
-    double f_adh = 10;//como papper pero * 3.3 (por la velocidad velocidad deseada)
+    double f_adh = 0.75;//
     double f_wall = 50;//como papper
 
 
 
     int seed = 44;
-    string path = "./Comparisons/Stop/";
+    string path = "./outputs/";
 
 
   if (argc == 18){
@@ -72,8 +69,6 @@ int main(int argc, char *argv[]){
     amplitud_radio = atof(argv[10]);
     frecuencia = atof(argv[11]);
 
-
-    //d_eq = atof(argv[12]);
     d_cut_prop = atof(argv[12]);
     f_rep = atof(argv[13]);
     f_adh = atof(argv[14]);
@@ -92,8 +87,6 @@ int main(int argc, char *argv[]){
   int num_escrito = 0;
   ofstream t_salidas(path+"Tiempos_salida.txt", ofstream::app);
 
-  //double max_radio = 0.2;
-
   int N;
 
   particulas = ubicar_particulas(W, L, D,N_deseado, radio_base, amplitud_radio,frecuencia,v_deseada);//tengo las particulas en sus posiciones iniciales
@@ -105,7 +98,6 @@ int main(int argc, char *argv[]){
     ya_salidas[p] = 0;
   }
 
-  cout << N <<"\n";
   vector<vector<int> > vecinos;
   escribir_posiciones(path,nombre_salida+"_0.txt",particulas,0);
   vector<double> fuerzas;
@@ -114,16 +106,15 @@ int main(int argc, char *argv[]){
   double t = 0;
   int cont_escritura = 0;
   int max_pasos = int(max_time/dt);
-  //cout << int(dt_escritura/dt)<<endl;
+
   string tiempo_formated;
-  //clock_t timer;
-  //timer = clock();
+
   for (int i = 0; i < max_pasos; i++){ //for de pasos temporales
-    //cout << i<<endl;
+
     vecinos = calcular_vecinos(particulas,W,L,d_cut_prop);
-    //cout << vecinos[1][0] <<endl;
+
     mover_particulas(particulas,vecinos,dt, L, W, D,d_cut_prop,f_rep,f_adh,f_wall,t);
-    //break;
+
     t += dt;
     cont_escritura++;
 
@@ -141,7 +132,7 @@ int main(int argc, char *argv[]){
       if (particulas[p].get_pos_y() + particulas[p].get_radio() < -L/10){
         reubicar_particula(particulas,p,W,L);
         ya_salidas[p]=0;
-        //particulas[p].set_target_y(0);
+
 
       }
     }
@@ -150,6 +141,9 @@ int main(int argc, char *argv[]){
       num_escrito++;
       cout<< nombre_salida + "_" + to_string(num_escrito) <<".txt" << " escrito." <<endl;
       escribir_posiciones(path,nombre_salida +"_"+ to_string(num_escrito) +".txt",particulas,t);
+
+      //cout<< path<< nombre_salida + "_" + to_string(num_escrito) <<".txt" <<endl;
+
       cont_escritura = 0;
 
     }
@@ -157,7 +151,5 @@ int main(int argc, char *argv[]){
   t_salidas.close();
   cout << "Fin" << endl;
 
-  //timer = clock() - timer;
-  //printf ("%f seconds).\n",((float)timer)/CLOCKS_PER_SEC);
   return 0;
 }
