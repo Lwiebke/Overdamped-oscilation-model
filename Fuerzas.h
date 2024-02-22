@@ -75,7 +75,7 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
                 }
                 else{
                   if (objetos[id].get_id()>1 && objetos[id_vec].get_id()>1){
-                  
+
                   }
 
                 }
@@ -118,7 +118,7 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
         velocidad_des[1] += -f_adh*( (d-radio) / (r_cut-radio));
       }
       else{
-        velocidad_des[1] += f_rep*exp((-2*d)/(radio));
+        velocidad_des[1] += f_wall*exp((-2*d)/(radio));
       }
 
 }
@@ -144,7 +144,7 @@ vector<double> calcular_fuerzas(vector <Particula> &objetos, int id, vector<int>
         velocidad_des[0] += f_adh*( (d-radio) / (r_cut-radio));
     }
     else{
-        velocidad_des[0] +=  -f_wall*exp((-2*d)/(r_cut));
+        velocidad_des[0] +=  -f_wall*exp((-2*d)/(radio));
     }
   }
 
