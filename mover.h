@@ -16,6 +16,7 @@ void mover_particulas(vector<Particula> &particulas, vector<vector<int> >& vecin
   }
   for (int i=2;i<particulas.size();i++){
       particulas[i].set_pos_x(  particulas[i].get_pos_x() + vel_x[i-2]*dt);
+      particulas[i].set_target_x(particulas[i].get_pos_x());
       particulas[i].set_pos_y(  particulas[i].get_pos_y() + vel_y[i-2]*dt);
       particulas[i].set_vel_x( vel_x[i-2] );
       particulas[i].set_vel_y( vel_y[i-2] );
